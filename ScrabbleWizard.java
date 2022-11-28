@@ -84,17 +84,17 @@ public class ScrabbleWizard {
 			return letterScore[(int) ch.charValue() - 97];
 		}
 
-		public String getBestWord() {
-			return bestWord;
-		}
+//		public String getBestWord() {
+//			return bestWord;
+//		}
 		
 		public ArrayList<String> getList() {
 			return list;
 		}
 
-		public int getBestScore() {
-			return bestScore;
-		}
+//		public int getBestScore() {
+//			return bestScore;
+//		}
 
 		public void reset() {
 			bestWord = "";
