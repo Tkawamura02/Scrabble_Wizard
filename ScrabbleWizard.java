@@ -7,6 +7,7 @@ import java.util.Collections;
 public class ScrabbleWizard {
 	private static String letters;
 	private static ArrayList<String> words;
+	private static ArrayList<String> tempList;
 
 	public static void main(String[] args) throws FileNotFoundException {
 		ArrayList<Character> seq = new ArrayList<Character>();
@@ -15,7 +16,7 @@ public class ScrabbleWizard {
 
 		Scanner in = new Scanner(System.in);
 
-		System.out.print("Scrabble Wizard: ");
+		System.out.print("Scrabble Wizard 2 - Tiffany Kawamura: ");
 		letters = in.next().toLowerCase();
 		addToLetters(letters, univ);
 
@@ -23,10 +24,17 @@ public class ScrabbleWizard {
 
 		for (int l = 2; l <= letters.length(); l++) {
 			PuzzleSolve.<Character>solve(l, seq, univ, tc);
-			if (tc.getBestScore() > 0) 
-				System.out.printf("Best %d-letter word: %s, score %d\n", l, tc.getBestWord(), tc.getBestScore());
-			else
-				System.out.printf("Best %d-letter word: ** none **\n", l);
+			//if (l==letters.length()) {
+				//System.out.printf("Best %d-letter word: %s, score %d\n", l, tc.getBestWord(), tc.getBestScore());
+				//System.out.println("Best "+l+"-letter word: "+ tc.getList());
+				tempList = tc.getList();
+				for (int i = 0; i<tempList.size(); i++) {
+					String item = tempList.get(i);
+					int itemLength = item.length();
+					if (itemLength==letters.length()) 
+						System.out.printf("%s\n",item);
+				}
+			//}
 			tc.reset();
 		}
 		
@@ -34,6 +42,7 @@ public class ScrabbleWizard {
 	}
 
 	private static class TestClass<C> implements PuzzleTest<C> {
+		private static ArrayList<String> list = new ArrayList<String>();
 		private String bestWord = "";
 		private int bestScore = -1;
 		private static int[] letterScore = { 1, 3, 3, 2, 1, 4, 2, 4, 1, 8, 5, 1, 3, 1, 1, 3, 10, 1, 1, 1, 1, 4, 4, 8, 4,
@@ -47,6 +56,8 @@ public class ScrabbleWizard {
 		public void foundSolution(ArrayList<C> solution) {
 			int score = calcScore(solution);
 			if (score > 0) {
+				bestWord = builder.toString();
+				list.add(bestWord); //add all the other words??
 				if (score > bestScore) {
 					bestScore = score;
 					bestWord = builder.toString();
@@ -75,6 +86,10 @@ public class ScrabbleWizard {
 
 		public String getBestWord() {
 			return bestWord;
+		}
+		
+		public ArrayList<String> getList() {
+			return list;
 		}
 
 		public int getBestScore() {
